@@ -14,7 +14,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from .populate import initiate
 from .models import CarMake, CarModel
-# from .restapis import .
+from .restapis import (get_request, post_review, analyze_review_sentiments)
 
 # Method to get the list of cars
 def get_cars(request):
@@ -105,6 +105,7 @@ def get_dealerships(request, state="All"):
     else:
         endpoint = "/fetchDealers/"+state
     dealerships = get_request(endpoint)
+    print("dealerships: ", dealerships)
     return JsonResponse({"status":200,"dealers":dealerships})
 
 # Create a `get_dealer_reviews` view to render the reviews of a dealer
