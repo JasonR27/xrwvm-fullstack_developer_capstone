@@ -1,5 +1,7 @@
-# Description: This file contains the code for making get requests to the backend
+# Description: This file contains the code 
+# for making get requests to the backend
 # and sentiment analyzer.import requests
+
 import os
 import requests
 from dotenv import load_dotenv

@@ -38,7 +38,8 @@ def login_user(request):
 def logout_request(request):
     logout(request)
     response_data = {
-        "userName": request.user.username if request.user.is_authenticated else ""}
+        "userName": request.user.username if
+        request.user.is_authenticated else ""}
     return JsonResponse(response_data)
 
 
@@ -55,7 +56,10 @@ def registration(request):
         response_data = {"userName": username, "error": "Already Registered"}
     except User.DoesNotExist:
         user = User.objects.create_user(
-            username=username, first_name=first_name, last_name=last_name, password=password, email=email)
+            username=username,
+            first_name=first_name,
+            last_name=last_name,
+            password=password, email=email)
         login(request, user)
         response_data = {"userName": username, "status": "Authenticated"}
     return JsonResponse(response_data)
