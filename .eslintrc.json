@@ -1,25 +1,14 @@
-
 {
-
-    "env": {
-  
-      "es6": true,
-  
-      "node": true
-  
-    },
-  
-    "parserOptions": {
-  
-      "ecmaVersion": 2018
-  
-    },
-  
-    "rules": {
-  
-      // your rules here
-  
-    }
-  
-  }
-  
+  "env": {
+    "es6": true,
+    "node": true,
+    "moz": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+  "rules": {
+    // your rules here
+  },
+    "esversion": 6
+}
