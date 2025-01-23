@@ -10,6 +10,18 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Ignore the djangoenv folder
+djangoenv/
+
+# Ignore log files
+*.log
+
+# Ignore compiled Python files
+*.pyc
+
+# Ignore database files
+db.sqlite3
+
 # C extensions
 *.so
 
