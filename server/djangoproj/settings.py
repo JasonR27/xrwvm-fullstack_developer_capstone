@@ -20,8 +20,8 @@ ALLOWED_HOSTS = ['localhost',
                  ]
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:3000/',
                         'http://127.0.0.1',
-                        'https://jeisonrobler-8000.theiadockernext-0-labs-prod-'
-                        'theiak8s-4-tor01.proxy.cognitiveclass.ai']
+                        'https://jeisonrobler-8000.theiadockernext-0-labs'
+                        '-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai']
 
 
 REST_FRAMEWORK = {
