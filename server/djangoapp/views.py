@@ -8,8 +8,15 @@ import json
 from .populate import initiate
 from .models import CarMake, CarModel
 from .restapis import get_request, post_review, analyze_review_sentiments
+# views.py
+from django.http import JsonResponse
+
 
 logger = logging.getLogger(__name__)
+
+
+def health_check(request):
+    return JsonResponse({'status': 'ok'})
 
 
 def get_cars(request):

@@ -1,4 +1,5 @@
 /* jshint esversion: 8 */
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -104,4 +105,9 @@ app.post('/insertReview', async (req, res) => {
     console.log(error);
     res.status(500).json({ error: 'Error inserting review' });
   }
+});
+
+// Start the Express server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });

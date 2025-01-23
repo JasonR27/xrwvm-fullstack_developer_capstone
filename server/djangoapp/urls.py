@@ -2,10 +2,13 @@
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
+from .views import health_check
 from . import views
 
 app_name = 'djangoapp'
 urlpatterns = [
+    # Health check endpoint
+    path('health', health_check, name='health_check'),
     # path for registration
     path(route='register', view=views.registration, name='register'),
 
