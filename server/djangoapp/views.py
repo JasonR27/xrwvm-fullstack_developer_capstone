@@ -19,11 +19,13 @@ def health_check(request):
 
 def get_cars(request):
     count = CarMake.objects.filter().count()
+    logger.info(f"CarMake count: {count}")
     if count == 0:
         initiate()
     car_models = CarModel.objects.select_related('car_make')
     cars = [{"CarModel": car_model.name, "CarMake": car_model.car_make.name}
             for car_model in car_models]
+    logger.info(f"Cars: {cars}")
     return JsonResponse({"CarModels": cars})
 
 

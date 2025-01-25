@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Make migrations and migrate the database.
-echo "Making migrations and migrating the database."
+echo "Making migrations and migrating the database..."
 python manage.py makemigrations --noinput
 if [ $? -ne 0 ]; then 
     echo "Makemigrations failed."
@@ -20,6 +20,9 @@ if [ $? -ne 0 ]; then
     echo "Collectstatic failed."
     exit 1
 fi
-echo "Static files collected."
 
+# Add any additional commands below this line
+# ...
+
+echo "Starting the server..."
 exec "$@"

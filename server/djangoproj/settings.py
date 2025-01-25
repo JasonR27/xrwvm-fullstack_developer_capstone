@@ -12,6 +12,9 @@ SECRET_KEY =\
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Enforce HTTPS, to avoid, "your speaking http to a ssl enabled server port" error
+SECURE_SSL_REDIRECT = True
+
 ALLOWED_HOSTS = ['localhost',
                  'http://127.0.0.1:3000/',
                  '127.0.0.1',
@@ -59,7 +62,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             # os.path.join(BASE_DIR, 'frontend/templates'),
-            os.path.join(BASE_DIR, 'frontend/public'),
+            # os.path.join(BASE_DIR, 'frontend/public'),
             os.path.join(BASE_DIR, 'frontend/static'),
             os.path.join(BASE_DIR, 'frontend/build'),
             os.path.join(BASE_DIR, 'frontend/build/static'),
@@ -81,12 +84,62 @@ WSGI_APPLICATION = 'djangoproj.wsgi.application'
 
 # Database # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     },
+#     'maindb': {
+#         'ENGINE': 'djongo',
+#         'NAME': 'dealershipsDB',
+#         'ENFORCE_SCHEMA': False,
+#         'CLIENT': {
+#             'host': 'mongo_db',
+#             'port': 27017,
+#             'authSource': 'your_auth_source',
+#             'authMechanism': 'SCRAM-SHA-1',
+#         }
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'NAME': 'dealershipsDB',
+#         'ENFORCE_SCHEMA': True,
+#         'CLIENT': {
+#             'host': 'mongo_db',
+#             'port': 27017,
+#             'authSource': 'admin',
+#             'authMechanism': 'SCRAM-SHA-1',
+#         }
+#     },
+#     'sqlite': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
+print('os.getenv(MONGO_NAME)', os.getenv('MONGO_NAME'))
+
 DATABASES = {
     'default': {
+        'ENGINE': 'djongo',
+        'NAME': os.getenv('MONGO_NAME', 'dealershipsDB'),
+        'ENFORCE_SCHEMA': True,
+        'CLIENT': {
+            'host': os.getenv('MONGO_HOST', 'mongodb://mongo_db:27017/'),
+            'port': int(os.getenv('MONGO_PORT', 27017)),
+        }
+    },
+    'sqlite': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -137,7 +190,6 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'frontend/public'),
     os.path.join(BASE_DIR, 'frontend/static'),
     os.path.join(BASE_DIR, 'frontend/build'),
     os.path.join(BASE_DIR, 'frontend/build/static'),
