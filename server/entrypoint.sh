@@ -10,7 +10,7 @@ fi
 
 python manage.py migrate --noinput
 if [ $? -ne 0 ]; then 
-    echo "Migrate failed."
+    echo "Migrate failed. migrations"
     exit 1
 fi
 
@@ -18,6 +18,15 @@ echo "Collecting static files..."
 python manage.py collectstatic --noinput
 if [ $? -ne 0 ]; then 
     echo "Collectstatic failed."
+    exit 1
+fi
+
+# Start the server.
+
+python manage.py runserver 8080 
+# --noinput
+if [ $? -ne 0 ]; then 
+    echo "Could not run server"
     exit 1
 fi
 

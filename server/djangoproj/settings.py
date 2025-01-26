@@ -121,16 +121,32 @@ WSGI_APPLICATION = 'djangoproj.wsgi.application'
 # }
 
 
-print('os.getenv(MONGO_NAME)', os.getenv('MONGO_NAME'))
+# print('os.getenv(MONGO_NAME)', os.getenv('MONGO_NAME'))
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'NAME': os.getenv('MONGO_NAME', 'dealershipsDB'),
+#         'ENFORCE_SCHEMA': True,
+#         'CLIENT': {
+#             'host': os.getenv('MONGO_HOST', 'mongodb://mongo_db:27017/'),
+#             'port': int(os.getenv('MONGO_PORT', 27017)),
+#         }
+#     },
+#     'sqlite': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': os.getenv('MONGO_NAME', 'dealershipsDB'),
+        'NAME': 'dealershipsDB',
         'ENFORCE_SCHEMA': True,
         'CLIENT': {
-            'host': os.getenv('MONGO_HOST', 'mongodb://mongo_db:27017/'),
-            'port': int(os.getenv('MONGO_PORT', 27017)),
+            'host': 'mongodb://mongo_db:27017/',
+            'port': 27017,
         }
     },
     'sqlite': {

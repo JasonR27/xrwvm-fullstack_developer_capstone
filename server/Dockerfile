@@ -17,7 +17,7 @@ WORKDIR $APP
 # Update pip to the latest version
 # Install the requirements
 COPY requirements.txt $APP
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip install --upgrade pip && pip install -U -r requirements.txt
 
 # Copy everything else
 COPY . $APP
@@ -41,7 +41,7 @@ RUN sed -i 's/\r$//' /app/entrypoint.sh
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose the app directly on the localhost address
-EXPOSE 9000
+EXPOSE 8080
 
 RUN chmod +x /app/entrypoint.sh
 ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]

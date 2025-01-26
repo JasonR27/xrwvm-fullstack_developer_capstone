@@ -26,6 +26,7 @@ FROM mongo:latest AS database
 # Set environment variables for MongoDB
 # ENV MONGO_INITDB_ROOT_USERNAME=mongoadmin
 # ENV MONGO_INITDB_ROOT_PASSWORD=secret
+
 # COPY entrypointdb.sh /entrypointdb.sh
 
 # Fix line endings for entrypoint.sh
@@ -33,8 +34,8 @@ FROM mongo:latest AS database
 
 
 # run with necessary permissions
-# RUN chmod +x /app/entrypoint.sh
-# ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
+# RUN chmod +x /app/entrypointdb.sh
+# ENTRYPOINT ["/bin/bash", "/entrypointdb.sh"]
 
 # Expose the default MongoDB port
 EXPOSE 27017
