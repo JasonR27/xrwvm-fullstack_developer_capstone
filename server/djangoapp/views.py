@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render
+# , redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import logout, login, authenticate
@@ -16,6 +17,8 @@ logger = logging.getLogger(__name__)
 def health_check(request):
     return JsonResponse({'status': 'ok'})
 
+def index(request):
+    return render(request, 'index.html')
 
 def get_cars(request):
     count = CarMake.objects.filter().count()
@@ -27,7 +30,7 @@ def get_cars(request):
     return JsonResponse({"CarModels": cars})
 
 
-@csrf_exempt
+@csrf_exempt 
 def login_user(request):
     data = json.loads(request.body)
     username = data['userName']
