@@ -32,7 +32,7 @@ def get_cars(request):
     return JsonResponse({"CarModels": cars})
 
 
-@csrf_exempt 
+@csrf_exempt
 def login_user(request):
     data = json.loads(request.body)
     username = data['userName']
