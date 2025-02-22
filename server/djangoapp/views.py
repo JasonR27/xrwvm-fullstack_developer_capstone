@@ -17,8 +17,10 @@ logger = logging.getLogger(__name__)
 def health_check(request):
     return JsonResponse({'status': 'ok'})
 
+
 def index(request):
     return render(request, 'index.html')
+
 
 def get_cars(request):
     count = CarMake.objects.filter().count()
