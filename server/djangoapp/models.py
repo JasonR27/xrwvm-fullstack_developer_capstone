@@ -1,39 +1,46 @@
-# Uncomment the following imports before adding the Model code
+# new version
+import sys
+import os
 
-from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'djangoproj')))
+
+from settings import mongo_client, db_on_mongo
+
+car_make_collection = db_on_mongo['CarMake']
+car_model_collection = db_on_mongo['CarModel']
+reviews_collection = db_on_mongo['reviews']
+
+# Insert a CarMake document
+def insert_car_make(name, description):
+    car_make = {
+        'name': name,
+        'description': description
+    }
+    car_make_collection.insert_one(car_make)
+    return car_make
+
+# Insert a CarModel document
+def insert_car_model(name, car_make_name, car_type, year):
+    car_model = {
+        'name': name,
+        'car_make_name': car_make_name,
+        'type': car_type,
+        'year': year
+    }
+    car_model_collection.insert_one(car_model)
+    return car_model
 
 
-# Create your models here.
-
-# Car Make model
-class CarMake(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    # Other fields as needed
-
-    def __str__(self):
-        return self.name  # Return the name as the string representation
-
-
-# Car Model Model
-class CarModel(models.Model):
-    # Many-to-One relationship
-    car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    CAR_TYPES = [
-        ('SEDAN', 'Sedan'),
-        ('SUV', 'SUV'),
-        ('WAGON', 'Wagon'),
-        # Add more choices as required
-    ]
-    type = models.CharField(max_length=10, choices=CAR_TYPES, default='SUV')
-    year = models.IntegerField(default=2023,
-                               validators=[
-                                   MaxValueValidator(2023),
-                                   MinValueValidator(2015)
-                               ])
-    # Other fields as needed
-
-    def __str__(self):
-        return self.name  # Return the name as the string representation
+def insert_review(name, dealership, review, purchase, purchase_date, car_make, car_model, car_year):
+    review = {
+        'name': name,
+        'dealership': dealership,
+        'review': review,
+        'purchase': purchase,
+        'purchase_date': purchase_date,
+        'car_make': car_make,
+        'car_model': car_model,
+        'car_year': car_year
+    }
+    reviews_collection.insert_one(review)
+    return car_make

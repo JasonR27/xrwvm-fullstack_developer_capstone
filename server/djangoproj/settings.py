@@ -1,6 +1,22 @@
 import os
 from pathlib import Path
 
+# from mongoengine import connect
+
+# connect(
+#     db='dealershipsDB',
+#     host='mongodb://mongo_db:27017/dealershipsDB',
+# )
+
+# mongodb.py
+from pymongo import MongoClient
+
+# Replace the URI string with your MongoDB deployment's connection string.
+mongo_client = MongoClient('mongodb://localhost:27017/')  # Adjust the connection string as needed.
+
+# Optionally, you can define your database and collection here.
+db_on_mongo = mongo_client['dealershipsDB']
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -12,8 +28,8 @@ SECRET_KEY =\
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# Enforce HTTPS, to avoid, "your speaking http to a ssl enabled server port" error
-SECURE_SSL_REDIRECT = True
+# # Enforce HTTPS
+# SECURE_SSL_REDIRECT = True
 
 ALLOWED_HOSTS = ['localhost',
                  'http://127.0.0.1:3000/',
@@ -34,6 +50,7 @@ REST_FRAMEWORK = {
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
     'djangoapp.apps.DjangoappConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,6 +59,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"  # Default
 
 
 MIDDLEWARE = [
@@ -60,6 +79,7 @@ ROOT_URLCONF = 'djangoproj.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # 'BACKEND': os.path.join(BASE_DIR, 'djangoproj/backends/mongo_backend.py'),
         'DIRS': [
             # os.path.join(BASE_DIR, 'frontend/templates'),
             # os.path.join(BASE_DIR, 'frontend/public'),
@@ -145,7 +165,8 @@ DATABASES = {
         'NAME': 'dealershipsDB',
         'ENFORCE_SCHEMA': True,
         'CLIENT': {
-            'host': 'mongodb://mongo_db:27017/',
+            # 'host': 'mongodb://mongo_db:27017/', # container
+            'host': 'mongodb://localhost:27017/',  # Localhost
             'port': 27017,
         }
     },

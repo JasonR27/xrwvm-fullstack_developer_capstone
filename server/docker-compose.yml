@@ -28,6 +28,8 @@ services:
     image: dbapp:api
     ports:
       - 3030:3030
+    volumes:
+      - ./database/config.js:/app/config.js
     depends_on: 
       - mongo_db
     networks:
@@ -38,9 +40,9 @@ services:
     container_name: dealership
     image: dealership:djangowebapp
     ports:
-      - "8080:8080"
+      - "3037:3000"
     depends_on:
-      - mongo_db
+      - mongo_db 
     environment:
       - MONGO_HOST=mongo_db
       - MONGO_PORT=27017
@@ -52,7 +54,7 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - "3031:3030"
+      - "3031:3032"
       - "5050:443"
       - "8082:8083"
     volumes:

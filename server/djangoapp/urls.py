@@ -11,8 +11,8 @@ urlpatterns = [
     path('health', health_check, name='health_check'),
     # path for registration
     path(route='register', view=views.registration, name='register'),
-
-    # path for login
+  
+    # path for login 
     path(route='login', view=views.login_user, name='login'),
 
     # path for dealer reviews view
@@ -39,4 +39,4 @@ urlpatterns = [
     path(route='dealer/<int:dealer_id>',
          view=views.get_dealer_details, name='dealer_details'),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

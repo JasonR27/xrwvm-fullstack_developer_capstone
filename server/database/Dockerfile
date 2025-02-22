@@ -8,8 +8,8 @@ RUN npm install -g npm@9.1.3
 
 ADD package.json .
 ADD app.js .
-ADD review.js .
-ADD dealership.js .
+ADD reviews.js .
+ADD dealerships.js .
 ADD data/dealerships.json .
 ADD data/reviews.json .
 COPY . .
@@ -22,6 +22,15 @@ CMD [ "node", "app.js" ]
 
 # Use the official MongoDB image for the database
 FROM mongo:latest AS database
+
+# Copy entrypoint.sh
+# COPY entrypoint.sh /app/entrypoint.sh
+
+# # Fix line endings for entrypoint.sh
+# RUN sed -i 's/\r$//' /app/entrypoint.sh
+
+# RUN chmod +x /app/entrypoint.sh
+# ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]
 
 # Set environment variables for MongoDB
 # ENV MONGO_INITDB_ROOT_USERNAME=mongoadmin
@@ -46,3 +55,11 @@ CMD ["mongod"]
 
 # Use the official mongo-express image as a base
 FROM mongo-express AS mongo-express
+
+# Copy the config.js file to the /config directory
+COPY config.js config.js
+COPY config.js /config.js
+COPY config.js /config/config.js
+COPY config.js /app/config.js
+
+EXPOSE 8081

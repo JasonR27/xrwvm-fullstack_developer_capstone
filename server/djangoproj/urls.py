@@ -14,14 +14,29 @@
 #     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 # """
 
+
+# from mongoengine_django.admin import site as mongoengine_admin_site
+
+# urlpatterns = [
+#     path('admin/', mongoengine_admin_site.urls),
+#     # Other URL patterns
+# ]
+
+# path('admin/', mongoengine_admin_site.urls),
+
+# path('admin/', admin.site.urls),
+
+
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from django.conf.urls.static import static
 from django.conf import settings
 
-urlpatterns = [
+from django.urls import path 
 
+
+urlpatterns = [
     path('admin/', admin.site.urls),
     path('djangoapp/', include('djangoapp.urls')),
     path('', TemplateView.as_view(template_name="Home.html")),

@@ -1,4 +1,8 @@
+# pymongo[snappy,gssapi,srv,tls]
+pymongo
+dnspython
 djongo
+djangorestframework
 requests
 Django
 Pillow

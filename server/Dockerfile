@@ -2,6 +2,7 @@
 FROM node:19.0.0-slim AS frontend-build
 WORKDIR /frontend
 COPY frontend/package*.json ./
+RUN npm install -g npm@8.19.2
 RUN npm install
 COPY frontend/ ./
 RUN npm run build
@@ -14,10 +15,13 @@ ENV PYTHONWRITEBYTECODE=1
 ENV APP=/app
 WORKDIR $APP
 
-# Update pip to the latest version
+
+# Install GCC
+RUN apt-get update && apt-get install -y gcc
+
 # Install the requirements
 COPY requirements.txt $APP
-RUN pip install --upgrade pip && pip install -U -r requirements.txt
+RUN pip install -U -r requirements.txt
 
 # Copy everything else
 COPY . $APP
@@ -41,9 +45,9 @@ RUN sed -i 's/\r$//' /app/entrypoint.sh
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose the app directly on the localhost address
-EXPOSE 8080
+EXPOSE 3000
 
 RUN chmod +x /app/entrypoint.sh
-ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"] 
 
 CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "djangoproj.wsgi"]

@@ -10,25 +10,59 @@ app.use(cors());
 app.use(require('body-parser').urlencoded({ extended: false }));
 const reviews_data = JSON.parse(fs.readFileSync('reviews.json', 'utf8'));
 const dealerships_data = JSON.parse(fs.readFileSync('dealerships.json', 'utf8'));
-// mongodb://mongo_db:27017/dealershipsDB
+mongodb://mongo_db:27017/dealershipsDB
 
 // mongoose.connect('mongodb://mongo_db:27017/', { dbName: 'dealershipsDB' });
 //  mongodb://username:password@host:port/database?authSource=admin
 // mongoose.connect('mongodb://root:root@mongo_db:27017/database?authSource=admin', { dbName: 'dealershipsDB' });
 // mongoose.connect('mongodb://username:password@mongo_db:27017/database?authSource=admin', { dbName: 'dealershipsDB' });
+// mongoose.connect('mongodb://172.19.0.127017/dealershipsDB');
+// mongoose.connect('172.19.0.1:27017');
+// mongoose.connect('mongodb://mongo_db:27017/dealershipsDB');
 mongoose.connect('mongodb://mongo_db:27017/dealershipsDB');
 
 
-const Reviews = require('./review');
+const Reviews = require('./reviews');
 
-const Dealerships = require('./dealership');
+const Dealerships = require('./dealerships');
 
-try {
-  Reviews.insertMany(reviews_data.reviews);
-  Dealerships.insertMany(dealerships_data.dealerships);
-} catch (error) {
-  console.error('Error inserting documents:', error);
+// try {
+//   Reviews.insertMany(reviews_data.reviews);
+//   Dealerships.insertMany(dealerships_data.dealerships);
+// } catch (error) {
+//   console.error('Error inserting documents:', error);
+// }
+
+async function insertData() {
+  try {
+    // Insert reviews
+    for (const review of reviews_data.reviews) {
+      const existingReview = await Reviews.findOne({ id: review.id });
+      if (!existingReview) {
+        await Reviews.create(review);
+      } else {
+        console.log(`Review with id ${review.id} already exists.`);
+      }
+    }
+
+    // Insert dealerships
+    for (const dealership of dealerships_data.dealerships) {
+      const existingDealership = await Dealerships.findOne({ id: dealership.id });
+      if (!existingDealership) {
+        await Dealerships.create(dealership);
+      } else {
+        console.log(`Dealership with id ${dealership.id} already exists.`);
+      }
+    }
+
+    console.log('Data insertion completed.');
+  } catch (error) {
+    console.error('Error inserting documents:', error);
+  }
 }
+
+insertData();
+
 
 // Express route to home
 app.get('/', async (req, res) => {
@@ -46,14 +80,15 @@ app.get('/fetchReviews', async (req, res) => {
 });
 
 // Express route to fetch reviews by a particular dealer
-app.get('/fetchReviews/dealer/:id', async (req, res) => {
-  try {
-    const documents = await Reviews.find({ dealership: req.params.id });
-    res.json(documents);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching documents' });
-  }
-});
+  app.get('/fetchReviews/dealer/:id', async (req, res) => {
+    try {
+      const documents = await Reviews.find({ dealership: req.params.id });
+      console.log('documents', documents); 
+      res.json(documents);
+    } catch (error) {
+      res.status(500).json({ error: 'Error fetching documents' });
+    }
+  });
 
 // Express route to fetch all dealerships
 app.get('/fetchDealers', async (req, res) => {
@@ -90,6 +125,7 @@ app.get('/fetchDealer/:id', async (req, res) => {
 
 //Express route to insert review
 app.post('/insertReview', async (req, res) => {
+  console.log('req.body', req.body);
   try {
     const data = JSON.parse(req.body);
     const documents = await Reviews.find().sort({ id: -1 }).limit(1);
