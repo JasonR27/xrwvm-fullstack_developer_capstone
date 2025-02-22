@@ -5,4 +5,4 @@
 - the frontend is built with react and some html templates render by django
 
 # This project is part of the Cloud Full Stack Software Development Capstone Project
-# for the 12 course of the IBM Professional Certificate of Cloud Full Stack Software Development
+# for the 12th course of the IBM Professional Certificate of Cloud Full Stack Software Development
