@@ -10,10 +10,8 @@ app_name = 'djangoapp'
 urlpatterns = [
     # Health check endpoint
     path('health', health_check, name='health_check'),
-    
     # testing react app path
     path('', views.index, name='index'),
-        
     # path for registration
     path(route='register', view=views.registration, name='register'),
 
