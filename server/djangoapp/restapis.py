@@ -36,6 +36,7 @@ sentiment_analyzer_url = os.getenv(
 # I will migrate everything to async in the near future
 # for now this is the only async functionality
 
+
 async def get_request(endpoint, **kwargs):
     print("GET request to endpoint: ", endpoint, " with params: ", kwargs)
     params = ""
@@ -52,7 +53,8 @@ async def get_request(endpoint, **kwargs):
                 if response.status == 200:
                     return await response.json()
                 else:
-                    raise Exception(f"Request failed with status: {response.status}")
+                    raise Exception(
+                        f"Request failed with status: {response.status}")
     except ConnectionError as ce:
         print(f"Connection Error: {ce}")
         logging.error(f"Failed to connect to {request_url}: {ce}")
@@ -63,6 +65,8 @@ async def get_request(endpoint, **kwargs):
         return None
 
 # Example usage
+
+
 async def main():
     dealerships = await get_request('/fetchdealers')
     if dealerships:
@@ -108,7 +112,7 @@ if __name__ == "__main__":
 #             params = params+key+"="+value+"&"
 
 #     request_url = backend_url+endpoint+"?"+params
-    
+
 #     logging.info(f"GET from {request_url}")
 
 #     print("(print)GET from {} ".format(request_url))
