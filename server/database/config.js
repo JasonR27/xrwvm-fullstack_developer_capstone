@@ -1,3 +1,5 @@
+/* jshint esversion: 8 */
+
 // module.exports = {
 //     mongodb: {
 //       server: 'mongo_db', // Service name from your Docker Compose file
