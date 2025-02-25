@@ -1,0 +1,167 @@
+# # version: '3.9'
+
+# services:
+#   frontend:
+#     container_name: frontend
+#     build: 
+#       context: ./server
+#       dockerfile: Dockerfile
+#       target: django_web_app
+#     ports:
+#       - 8000:8000
+#     volumes:
+#       # - frontend_node_modules:/app/frontend/node_modules
+#       - .:app/
+#     networks:
+#       - capstone_network
+      
+#   # Mongodb service
+#   mongo_db:
+#     container_name: db_container
+#     image: mongo:latest
+#     ports:
+#       - 27017:27017
+#     restart: always
+#     volumes:
+#       - mongo_data:/data/db
+#     networks:
+#       - capstone_network
+
+#   # Node api service
+#   api:
+#     # image: nodeapp
+#     container_name: api
+#     build:
+#       context: ./server/database
+#       dockerfile: Dockerfile
+#       target: nodeapi
+#     volumes:
+#      - api_node_modules:/app/node_modules
+
+#     ports:
+#       - 3030:3030
+#     depends_on:
+#       - mongo_db
+#     networks:
+#       - capstone_network
+
+#   sentiment_analizer:
+#     container_name: sentiment_analizer
+#     build: 
+#       context: /server/djangoapp/microservices
+#       dockerfile: Dockerfile
+#       target: sentiment_analyzer
+#     ports:
+#     - 8000:8000
+#     networks:
+#       - capstone_network
+
+
+#   # MongoDB Client Service
+#   mongo_express:
+#     container_name: mongo-express-client
+#     image: mongo-express
+#     # build:
+#     #  context: ./database
+#     #  dockerfile: Dockerfile
+#     #  target: mongo-express
+#     ports:
+#       - 8081:8081
+#     environment:
+#       - ME_CONFIG_MONGODB_SERVER=mongo_db
+#       - ME_CONFIG_MONGODB_PORT=27017
+#     networks:
+#       - capstone_network
+
+
+# networks:
+#   capstone_network:
+
+# volumes:
+#   mongo_data: {}
+#   api_node_modules:
+#   # frontend_node_modules:
+
+# version: '3.9'
+
+services:
+  frontend:
+    container_name: frontend
+    build: 
+      context: ./server
+      dockerfile: Dockerfile
+      target: django_web_app
+    ports:
+      - 8000:8000
+    volumes:
+      # - .:/app/
+      # - entrypoint_volume:/app/entrypoint.sh
+      - ./server/djangoapp:/app/djangoapp
+      - ./server/djangoproj:/app/djangoproj
+      - ./server/frontend/build:/app/frontend/build
+      - ./server/frontend/static:/app/frontend/static
+      - ./server/static:/app/static
+      - ./server/init:/app/init
+
+      # - db.sqlite3:/app/db.sqlite3
+      # - ./frontend:/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=djangoproj.settings
+    networks:
+      - capstone_network
+      
+  mongo_db:
+    container_name: db_container
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - capstone_network
+
+  api:
+    container_name: api
+    build:
+      context: ./server/database
+      dockerfile: Dockerfile
+      target: nodeapi
+    volumes:
+     - api_node_modules:/app/node_modules
+    ports:
+      - 3030:3030
+    depends_on:
+      - mongo_db
+    networks:
+      - capstone_network
+
+  sentiment_analyzer:
+    container_name: sentiment_analyzer
+    build: 
+      context: ./server/djangoapp/microservices
+      dockerfile: Dockerfile
+      target: sentiment_analyzer
+    ports:
+      - 5000:5000
+    networks:
+      - capstone_network
+
+  mongo_express:
+    container_name: mongo-express-client
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo_db
+      - ME_CONFIG_MONGODB_PORT=27017
+    networks:
+      - capstone_network
+
+networks:
+  capstone_network:
+
+volumes:
+  mongo_data: {}
+  api_node_modules: {}
+  # entrypoint_volume:

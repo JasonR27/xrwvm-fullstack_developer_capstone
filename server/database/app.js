@@ -7,6 +7,7 @@ const cors = require('cors');
 const app = express();
 const port = 3030;
 app.use(cors());
+// app.use(cors({ origin: 'http://localhost:8000' }));
 app.use(require('body-parser').urlencoded({ extended: false }));
 const reviews_data = JSON.parse(fs.readFileSync('./data/reviews.json', 'utf8'));
 const dealerships_data = JSON.parse(fs.readFileSync('./data/dealerships.json', 'utf8'));
@@ -29,7 +30,7 @@ app.get('/', async (req, res) => {
 });
 
 // Express route to fetch all reviews
-app.get('/fetchReviews', async (req, res) => {
+app.get('/fetchreviews', async (req, res) => {
   try {
     const documents = await Reviews.find();
     res.json(documents);
@@ -39,7 +40,7 @@ app.get('/fetchReviews', async (req, res) => {
 });
 
 // Express route to fetch reviews by a particular dealer
-app.get('/fetchReviews/dealer/:id', async (req, res) => {
+app.get('/fetchreviews/dealer/:id', async (req, res) => {
   try {
     const documents = await Reviews.find({ dealership: req.params.id });
     res.json(documents);
@@ -49,7 +50,7 @@ app.get('/fetchReviews/dealer/:id', async (req, res) => {
 });
 
 // Express route to fetch all dealerships
-app.get('/fetchDealers', async (req, res) => {
+app.get('/fetchdealers', async (req, res) => {
   //Write your code here
   try {
     const documents = await Dealerships.find();

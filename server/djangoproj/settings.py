@@ -13,13 +13,22 @@ SECRET_KEY =\
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost',
+                 'localhost:3000',
+                 'localhost:3030',
                  'http://127.0.0.1:3000/',
+                 'http://127.0.0.1:8000/',
+                 'http://127.0.0.1:3030/',
                  '127.0.0.1',
                  'https://jeisonrobler-8000.theiadockernext-0-labs-prod-'
                  'theiak8s-4-tor01.proxy.cognitiveclass.ai'
                  ]
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:3000/',
                         'http://127.0.0.1',
+                        'http://127.0.0.1:8000/',
+                        'http://127.0.0.1:3030/',
+                        'http://localhost',
+                        'http://localhost:3030',
+                        'http://localhost:8000',
                         'https://jeisonrobler-8000.theiadockernext-0-labs'
                         '-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai']
 
@@ -59,7 +68,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'frontend/build')
-            ],
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -134,4 +143,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'frontend/build/static'),
+    os.path.join(BASE_DIR, 'frontend/static'),    
 ]

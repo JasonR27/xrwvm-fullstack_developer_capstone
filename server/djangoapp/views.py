@@ -32,7 +32,7 @@ def get_cars(request):
     return JsonResponse({"CarModels": cars})
 
 
-@csrf_exempt
+@csrf_exempt 
 def login_user(request):
     data = json.loads(request.body)
     username = data['userName']
@@ -75,15 +75,16 @@ def registration(request):
     return JsonResponse(response_data)
 
 
-def get_dealerships(request, state="All"):
-    endpoint = "/fetchDealers" if state == "All" else f"/fetchDealers/{state}"
-    dealerships = get_request(endpoint)
-    return JsonResponse({"status": 200, "dealers": dealerships})
+async def get_dealerships(request, state="All"): 
+    endpoint = "/fetchdealers" if state == "All" else f"/fetchdealers/{state}"
+    dealerships = await get_request(endpoint)
+    print('dealerships', dealerships)
+    return JsonResponse({"status": 200, "dealers": dealerships}) 
 
 
 def get_dealer_reviews(request, dealer_id):
     if dealer_id:
-        endpoint = f"/fetchReviews/dealer/{dealer_id}"
+        endpoint = f"/fetchreviews/dealer/{dealer_id}"
         reviews = get_request(endpoint)
         for review_detail in reviews:
             response = analyze_review_sentiments(review_detail['review'])

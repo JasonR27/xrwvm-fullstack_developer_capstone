@@ -13,11 +13,38 @@ services:
 
   # Node api service
   api:
-    image: nodeapp
+    # image: nodeapp
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: nodeapi
+    volumes:
+     - api_node_modules:/app/node_modules
+     - .:/app
+
     ports:
       - 3030:3030
-    depends_on: 
+    depends_on:
       - mongo_db
+
+  # MongoDB Client Service
+  mongo_express:
+    container_name: mongo-express-client
+    image: mongo-express
+    # build:
+    #  context: ./database
+    #  dockerfile: Dockerfile
+    #  target: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo_db
+      - ME_CONFIG_MONGODB_PORT=27017
+    # networks:
+    #   - my_network
 
 volumes:
   mongo_data: {}
+  api_node_modules:
+  # frontend_node_modules:
