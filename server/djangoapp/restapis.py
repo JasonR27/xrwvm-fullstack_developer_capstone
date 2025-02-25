@@ -75,7 +75,6 @@ async def main():
         print("Failed to retrieve dealerships")
 
 if __name__ == "__main__":
-    import logging
     logging.basicConfig(level=logging.DEBUG)
 
     asyncio.run(main())
