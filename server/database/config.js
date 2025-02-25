@@ -76,15 +76,13 @@ function getFileEnv(envVariable) {
   return origVar;
 }
 
-const meConfigMongodbServer = process.env.ME_CONFIG_MONGODB_SERVER
-  ? process.env.ME_CONFIG_MONGODB_SERVER.split(',')
-  : false;
+const meConfigMongodbServer = process.env.ME_CONFIG_MONGODB_SERVER ? process.env.ME_CONFIG_MONGODB_SERVER.split(',') : false;
 
 function getConnectionStringFromInlineParams() {
   const infos = {
     server: (
       meConfigMongodbServer.length > 1 ? meConfigMongodbServer : meConfigMongodbServer[0]
-    ) ||  mongo.host || process.env.ME_CONFIG_MONGODB_SERVER || '127.0.0.1',
+    ) || mongo.host || process.env.ME_CONFIG_MONGODB_SERVER || '127.0.0.1',
     port: mongo.port || process.env.ME_CONFIG_MONGODB_PORT || '27017',
     dbName: mongo.dbName,
     username: mongo.username,
@@ -242,4 +240,3 @@ export default {
     noDelete: getBoolean(process.env.ME_CONFIG_OPTIONS_NO_DELETE, false),
   },
 };
-  

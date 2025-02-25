@@ -2,13 +2,15 @@ import logging
 import os
 import requests
 from dotenv import load_dotenv
+import asyncio
+from aiohttp import ClientSession
 
 load_dotenv()
 
 
 # this url's were giving me an error
 # where the container couldn't access localhost
-# so well so I changed to the below option 
+# so well so I changed to the below option
 # where they communicate through a docker
 # network and it works fine
 
@@ -21,7 +23,7 @@ load_dotenv()
 
 
 # This urls are to work with the version of the project
-# where all services run in different containers within 
+# where all services run in different containers within
 # the same network
 backend_url = os.getenv(
     'backend_url', default="http://api:3030")
@@ -29,9 +31,6 @@ backend_url = os.getenv(
 sentiment_analyzer_url = os.getenv(
     'sentiment_analyzer_url',
     default="http://sentiment_analyzer:5000/")
-
-import asyncio
-from aiohttp import ClientSession
 
 # this is the async version for the get_request function
 # I will migrate everything to async in the near future
